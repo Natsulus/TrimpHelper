@@ -24,6 +24,7 @@ document.getElementById("buyTabsUl").appendChild(helperTab);
 
 // Create a Container using the example from container.html
 var helperContainer = document.createElement("DIV");
+helperContainer.setAttribute("id", "helperContainer");
 helperContainer.setAttribute("style", "display: none;");
 
 var helperTitleDiv = document.createElement("DIV");
