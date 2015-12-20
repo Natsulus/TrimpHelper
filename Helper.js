@@ -1,9 +1,7 @@
-const tabs = ["buildings", "jobs", "upgrades", "equipment", "helper"];
-
 var helperTab = document.createElement("LI");
 helperTab.setAttribute("role", "presentation");
 helperTab.setAttribute("id", "helperTab");
-helperTab.setAttribute("onclick", "filterTabs('helper')");
+helperTab.setAttribute("onclick", "filterHelper('helper')");
 helperTab.setAttribute("class", "buyTab");
 helperTab.setAttribute("style", "background: rgba(255, 255, 255, 0.25);");
 
@@ -50,3 +48,14 @@ helperTitleDiv.appendChild(helperTitleRow);
 helperContainer.appendChild(helperTitleDiv);
 
 document.getElementById("buyHere").appendChild(helperContainer);
+
+function filterHelper (what) {
+	enableDisableTab(game.global.buyTab, false);
+	game.global.buyTab = what;
+	enableDisableTab(what, true);
+	var tabs = ["buildings", "jobs", "upgrades", "equipment", "helper"];
+	for (var tab in tabs){
+		tab = tabs[tab];
+		document.getElementById(tab + "Container").style.display = (tab == what) ? "block" : "none";
+	}
+}
