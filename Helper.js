@@ -91,7 +91,6 @@ unlearnShieldblockBtn.setAttribute("onmouseout", "tooltip('hide')");
 unlearnShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing helperButton");
 unlearnShieldblockBtn.setAttribute("id", "unlearnShieldblockBtn");
 unlearnShieldblockBtn.setAttribute("onclick", "unlearnShieldblock()");
-unlearnShieldblockBtn.setAttribute("style", "background: black;");
 
 var unlearnShieldblockBtnSpan = document.createElement("SPAN");
 unlearnShieldblockBtnSpan.setAttribute("class", "thingName");
@@ -107,7 +106,6 @@ removeShieldblockBtn.setAttribute("onmouseout", "tooltip('hide')");
 removeShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing helperButton");
 removeShieldblockBtn.setAttribute("id", "removeShieldblockBtn");
 removeShieldblockBtn.setAttribute("onclick", "removeShieldblock()");
-removeShieldblockBtn.setAttribute("style", "background: black;");
 
 var removeShieldblockBtnSpan = document.createElement("SPAN");
 removeShieldblockBtnSpan.setAttribute("class", "thingName");
@@ -123,7 +121,6 @@ allowRespecBtn.setAttribute("onmouseout", "tooltip('hide')");
 allowRespecBtn.setAttribute("class", "thing noselect pointer upgradeThing helperButton");
 allowRespecBtn.setAttribute("id", "allowRespecBtn");
 allowRespecBtn.setAttribute("onclick", "allowRespec()");
-//allowRespecBtn.setAttribute("style", "background: black;");
 
 var allowRespecBtnSpan = document.createElement("SPAN");
 allowRespecBtnSpan.setAttribute("class", "thingName");
