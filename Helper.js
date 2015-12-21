@@ -66,7 +66,7 @@ var helperTitleText = document.createTextNode("Helper");
 helperTitleSpan.appendChild(helperTitleText);
 helperTitleCol.appendChild(helperTitleSpan);
 helperTitleRow.appendChild(helperTitleCol);
-helperTitleDiv.appendChild(helperTitleRow);
+helperTitleDiv.appendChild(helperTitleRow); // helperTitleDiv
 
 
 var helperHere = document.createElement("DIV");
@@ -87,8 +87,26 @@ unlearnShieldblockSpan.setAttribute("class", "thingName");
 var unlearnShieldblockthingName = document.createTextNode("Unlearn Shieldblock");
 
 unlearnShieldblockSpan.appendChild(unlearnShieldblockthingName);
-unlearnShieldblock.appendChild(unlearnShieldblockSpan);
+unlearnShieldblock.appendChild(unlearnShieldblockSpan); // unlearnShieldblock
+
+var removeShieldblock = document.createElement("DIV");
+removeShieldblock.setAttribute("onmouseover", "");
+removeShieldblock.setAttribute("onmouseout", "tooltip('hide')");
+removeShieldblock.setAttribute("class", "thing noselect pointer upgradeThing");
+removeShieldblock.setAttribute("id", "removeShieldblock");
+removeShieldblock.setAttribute("onclick", "removeShieldBlock()");
+removeShieldblock.setAttribute("style", "background: black;");
+
+var removeShieldblockSpan = document.createElement("SPAN");
+unlearnShieldblockSpan.setAttribute("class", "thingName");
+
+var removeShieldblockthingName = document.createTextNode("Remove Shieldblock");
+
+removeShieldblockSpan.appendChild(removeShieldblockthingName);
+removeShieldblock.appendChild(removeShieldblockSpan); // removeShieldblock
+
 helperHere.appendChild(unlearnShieldblock);
+helperHere.appendChild(removeShieldblock);
 
 helperContainer.appendChild(helperTitleDiv);
 helperContainer.appendChild(helperHere);
@@ -117,7 +135,7 @@ function unlearnShieldBlock() {
 		game.equipment.Shield.blockNow = false;
 		game.equipment.Shield.tooltip = "A big, wooden shield. Adds $healthCalculated$ health to each soldier per level.";
 		levelEquipment("Shield", 1);
-		message("Your Trimps forgot how to block with their shields.", "Helper", "*help");
+		message("Your Trimps forgot how to block with their shields.", "Loot", "*help"); // Replace Loot with Helper
 	}
 }
 
@@ -126,7 +144,7 @@ function removeShieldBlock() {
 		game.upgrades.Shieldblock.allowed = 0
 		game.upgrades.Shieldblock.locked = 1
 		document.getElementById("upgradesHere").removeChild(document.getElementById("Shieldblock"));
-		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmmallows.", "Helper", "*fire");
+		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmmallows.", "Loot", "*fire"); // Replace Loot with Helper
 	}
 }
 
