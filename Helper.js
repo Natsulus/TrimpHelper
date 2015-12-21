@@ -1,4 +1,5 @@
 /*
+To Do:
 - Custom Number Tabs (+1, +10, +25, +100) [Both for Regular and Helium Purchases but separate custom settings]
 - Auto Buy Storage at [USER-INPUT]%
 - Auto Buy Housing (???)
@@ -11,11 +12,12 @@
 - Efficient Formation Switching (Switch each new troop)
 - Active Formation Switching (Switch during battle)
 - Add New Message Type (Story, Loot, Unlocks, Combat, Helper)
+- Categories (Buttons, Automate, Cheats)
 
 Complete:
-- Unlearn Shieldblock
-- Remove Shieldblock
-- Re-Allow Perk Respec
+- Unlearn Shieldblock (Buttons)
+- Remove Shieldblock (Buttons)
+- Re-Allow Perk Respec (Buttons)
 
 Default Helper Message Type Icon: info2 (icomoon)*/
 
@@ -75,40 +77,71 @@ var helperHere = document.createElement("DIV");
 helperHere.setAttribute("class", "buyBox");
 helperHere.setAttribute("id", "helperHere");
 
-var unlearnShieldblock = document.createElement("DIV");
-unlearnShieldblock.setAttribute("onmouseover", "");
-unlearnShieldblock.setAttribute("onmouseout", "tooltip('hide')");
-unlearnShieldblock.setAttribute("class", "thing noselect pointer upgradeThing");
-unlearnShieldblock.setAttribute("id", "unlearnShieldblock");
-unlearnShieldblock.setAttribute("onclick", "unlearnShieldBlock()");
-unlearnShieldblock.setAttribute("style", "background: black;");
+var unlearnShieldblockBtn = document.createElement("DIV");
+unlearnShieldblockBtn.setAttribute("onmouseover", "");
+unlearnShieldblockBtn.setAttribute("onmouseout", "tooltip('hide')");
+unlearnShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing");
+unlearnShieldblockBtn.setAttribute("id", "unlearnShieldblockBtn");
+unlearnShieldblockBtn.setAttribute("onclick", "unlearnShieldblock()");
+unlearnShieldblockBtn.setAttribute("style", "background: black;");
 
-var unlearnShieldblockSpan = document.createElement("SPAN");
-unlearnShieldblockSpan.setAttribute("class", "thingName");
+var unlearnShieldblockBtnSpan = document.createElement("SPAN");
+unlearnShieldblockBtnSpan.setAttribute("class", "thingName");
 
-var unlearnShieldblockthingName = document.createTextNode("Unlearn Shieldblock");
+var unlearnShieldblockBtnthingName = document.createTextNode("Unlearn Shieldblock");
 
-unlearnShieldblockSpan.appendChild(unlearnShieldblockthingName);
-unlearnShieldblock.appendChild(unlearnShieldblockSpan); // unlearnShieldblock
+unlearnShieldblockBtnSpan.appendChild(unlearnShieldblockBtnthingName);
+unlearnShieldblockBtn.appendChild(unlearnShieldblockBtnSpan); // unlearnShieldblockBtn
 
-var removeShieldblock = document.createElement("DIV");
-removeShieldblock.setAttribute("onmouseover", "");
-removeShieldblock.setAttribute("onmouseout", "tooltip('hide')");
-removeShieldblock.setAttribute("class", "thing noselect pointer upgradeThing");
-removeShieldblock.setAttribute("id", "removeShieldblock");
-removeShieldblock.setAttribute("onclick", "removeShieldBlock()");
-removeShieldblock.setAttribute("style", "background: black;");
+var removeShieldblockBtn = document.createElement("DIV");
+removeShieldblockBtn.setAttribute("onmouseover", "");
+removeShieldblockBtn.setAttribute("onmouseout", "tooltip('hide')");
+removeShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing");
+removeShieldblockBtn.setAttribute("id", "removeShieldblockBtn");
+removeShieldblockBtn.setAttribute("onclick", "removeShieldblock()");
+removeShieldblockBtn.setAttribute("style", "background: black;");
 
-var removeShieldblockSpan = document.createElement("SPAN");
-unlearnShieldblockSpan.setAttribute("class", "thingName");
+var removeShieldblockBtnSpan = document.createElement("SPAN");
+removeShieldblockBtnSpan.setAttribute("class", "thingName");
 
-var removeShieldblockthingName = document.createTextNode("Remove Shieldblock");
+var removeShieldblockBtnthingName = document.createTextNode("Remove Shieldblock");
 
-removeShieldblockSpan.appendChild(removeShieldblockthingName);
-removeShieldblock.appendChild(removeShieldblockSpan); // removeShieldblock
+removeShieldblockBtnSpan.appendChild(removeShieldblockBtnthingName);
+removeShieldblockBtn.appendChild(removeShieldblockBtnSpan); // removeShieldblockBtn
 
-helperHere.appendChild(unlearnShieldblock);
-helperHere.appendChild(removeShieldblock);
+var allowRespecBtn = document.createElement("DIV");
+allowRespecBtn.setAttribute("onmouseover", "");
+allowRespecBtn.setAttribute("onmouseout", "tooltip('hide')");
+allowRespecBtn.setAttribute("class", "thing noselect pointer upgradeThing");
+allowRespecBtn.setAttribute("id", "allowRespecBtn");
+allowRespecBtn.setAttribute("onclick", "allowRespec()");
+allowRespecBtn.setAttribute("style", "background: black;");
+
+var allowRespecBtnSpan = document.createElement("SPAN");
+allowRespecBtnSpan.setAttribute("class", "thingName");
+
+var allowRespecBtnthingName = document.createTextNode("Allow Respec");
+
+allowRespecBtnSpan.appendChild(allowRespecBtnthingName);
+allowRespecBtn.appendChild(allowRespecBtnSpan); // allowRespecBtn
+
+
+// Remove the inline styles for the above and add the following class instead.
+/*  
+.button {
+	background: Black;
+}
+.button:hover {
+	background: DimGray;
+}
+.button:active {
+	background: DarkGray;
+}
+*/
+
+helperHere.appendChild(unlearnShieldblockBtn);
+helperHere.appendChild(removeShieldblockBtn);
+helperHere.appendChild(allowRespecBtn);
 
 helperContainer.appendChild(helperTitleDiv);
 helperContainer.appendChild(helperHere);
@@ -137,7 +170,7 @@ filterTabs = function(what) {
 	}
 }
 
-function unlearnShieldBlock() {
+function unlearnShieldblock() {
 	if (game.upgrades.Shieldblock.done == 1) {
 		game.upgrades.Shieldblock.done = 0;
 		prestigeEquipment("Shield", false, true);
@@ -148,7 +181,7 @@ function unlearnShieldBlock() {
 	}
 }
 
-function removeShieldBlock() {
+function removeShieldblock() {
 	if (game.upgrades.Shieldblock.allowed == 1) {
 		game.upgrades.Shieldblock.allowed = 0
 		game.upgrades.Shieldblock.locked = 1
@@ -158,7 +191,7 @@ function removeShieldBlock() {
 }
 
 
-function addRespec() {
+function allowRespec() {
 	if (game.global.canRespecPerks == false) {
 		game.global.canRespecPerks = true;
 	}
