@@ -41,7 +41,6 @@ helperTab.appendChild(helperA);
 document.getElementById("buyTabsUl").appendChild(helperTab); // Create Helper Tab
 
 
-
 // Create a Container using the example from container.html
 var helperContainer = document.createElement("DIV");
 helperContainer.setAttribute("id", "helperContainer");
@@ -119,12 +118,17 @@ filterTabs = function(what) {
 	game.global.buyTab = what;
 	enableDisableTab(what, true);
 	var tabs = ["buildings", "jobs", "upgrades", "equipment", "helper"];
-	for (var tab in tabs){
+	for (var tab in tabs) {
 		tab = tabs[tab];
 		if (what == "all" && tab == "helper")
 			document.getElementById(tab + "Container").style.display = "none";
 		else
 			document.getElementById(tab + "Container").style.display = (what == "all" || tab == what) ? "block" : "none";
+	}
+	if (what == "helper") {
+		document.getElementById("numTabs").style.display = "none";
+	} else {
+		document.getElementById("numTabs").style.display = "block";
 	}
 }
 
@@ -144,7 +148,7 @@ function removeShieldBlock() {
 		game.upgrades.Shieldblock.allowed = 0
 		game.upgrades.Shieldblock.locked = 1
 		document.getElementById("upgradesHere").removeChild(document.getElementById("Shieldblock"));
-		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmmallows.", "Loot", "*fire"); // Replace Loot with Helper
+		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmallows.", "Loot", "*fire"); // Replace Loot with Helper
 	}
 }
 
