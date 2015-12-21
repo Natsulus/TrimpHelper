@@ -21,6 +21,14 @@ Complete:
 
 Default Helper Message Type Icon: info2 (icomoon)*/
 
+// Add helperCSS
+helperCSS = document.createElement("link");
+helperCSS.setAttribute("id", "helperCSS");
+helperCSS.setAttribute("rel", "stylesheet");
+helperCSS.setAttribute("type", "text/css");
+helperCSS.setAttribute("href", "https://Natsulus.github.io/TrimpHelper/Helper.css");
+document.getElementsByTagName("head").item(0).appendChild(helperCSS);
+
 // OCD
 document.getElementById("buyContainer").style.height = "calc(99vh - 30vw - 41px)";
 
@@ -80,7 +88,7 @@ helperHere.setAttribute("id", "helperHere");
 var unlearnShieldblockBtn = document.createElement("DIV");
 unlearnShieldblockBtn.setAttribute("onmouseover", "");
 unlearnShieldblockBtn.setAttribute("onmouseout", "tooltip('hide')");
-unlearnShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing");
+unlearnShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing helperButton");
 unlearnShieldblockBtn.setAttribute("id", "unlearnShieldblockBtn");
 unlearnShieldblockBtn.setAttribute("onclick", "unlearnShieldblock()");
 unlearnShieldblockBtn.setAttribute("style", "background: black;");
@@ -96,7 +104,7 @@ unlearnShieldblockBtn.appendChild(unlearnShieldblockBtnSpan); // unlearnShieldbl
 var removeShieldblockBtn = document.createElement("DIV");
 removeShieldblockBtn.setAttribute("onmouseover", "");
 removeShieldblockBtn.setAttribute("onmouseout", "tooltip('hide')");
-removeShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing");
+removeShieldblockBtn.setAttribute("class", "thing noselect pointer upgradeThing helperButton");
 removeShieldblockBtn.setAttribute("id", "removeShieldblockBtn");
 removeShieldblockBtn.setAttribute("onclick", "removeShieldblock()");
 removeShieldblockBtn.setAttribute("style", "background: black;");
@@ -112,10 +120,10 @@ removeShieldblockBtn.appendChild(removeShieldblockBtnSpan); // removeShieldblock
 var allowRespecBtn = document.createElement("DIV");
 allowRespecBtn.setAttribute("onmouseover", "");
 allowRespecBtn.setAttribute("onmouseout", "tooltip('hide')");
-allowRespecBtn.setAttribute("class", "thing noselect pointer upgradeThing");
+allowRespecBtn.setAttribute("class", "thing noselect pointer upgradeThing helperButton");
 allowRespecBtn.setAttribute("id", "allowRespecBtn");
 allowRespecBtn.setAttribute("onclick", "allowRespec()");
-allowRespecBtn.setAttribute("style", "background: black;");
+//allowRespecBtn.setAttribute("style", "background: black;");
 
 var allowRespecBtnSpan = document.createElement("SPAN");
 allowRespecBtnSpan.setAttribute("class", "thingName");
@@ -124,20 +132,6 @@ var allowRespecBtnthingName = document.createTextNode("Allow Respec");
 
 allowRespecBtnSpan.appendChild(allowRespecBtnthingName);
 allowRespecBtn.appendChild(allowRespecBtnSpan); // allowRespecBtn
-
-
-// Remove the inline styles for the above and add the following class instead.
-/*  
-.button {
-	background: Black;
-}
-.button:hover {
-	background: DimGray;
-}
-.button:active {
-	background: DarkGray;
-}
-*/
 
 helperHere.appendChild(unlearnShieldblockBtn);
 helperHere.appendChild(removeShieldblockBtn);

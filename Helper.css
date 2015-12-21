@@ -1,0 +1,9 @@
+.helperButton {
+	background: black;
+}
+.helperButton:hover {
+	background: dimgray;
+}
+.helperButton:active {
+	background: darkgray;
+}
