@@ -183,7 +183,7 @@ function removeShieldblock() {
 		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmallows.", "Loot", "*fire"); // Replace Loot with Helper
 	}
 	else {
-		message("Shiedblock unavailable or already removed!", "Loot", "*exclamation-triangle");
+		message("Shieldblock unavailable or already removed!", "Loot", "*exclamation-triangle");
 	}
 }
 
@@ -191,7 +191,7 @@ function removeShieldblock() {
 function allowRespec() {
 	if (game.global.canRespecPerks == false) {
 		game.global.canRespecPerks = true;
-		message("Your Trimps forgot how to block with their shields.", "Loot", "*thumbs-up2");
+		message("You can now respec.", "Loot", "*thumbs-up2");
 	}
 	else {
 		message("You can already respec!", "Loot", "*exclamation-triangle");
