@@ -127,8 +127,10 @@ filterTabs = function(what) {
 	}
 	if (what == "helper") {
 		document.getElementById("numTabs").style.display = "none";
+		document.getElementById("buyContainer").style.height = "calc(99vh - 18vw - 188px)";
 	} else {
 		document.getElementById("numTabs").style.display = "block";
+		document.getElementById("buyContainer").style.height = "calc(99vh - 20vw - 193px)";
 	}
 }
 
