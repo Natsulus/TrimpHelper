@@ -170,6 +170,9 @@ function unlearnShieldblock() {
 		levelEquipment("Shield", 1);
 		message("Your Trimps forgot how to block with their shields.", "Loot", "*help"); // Replace Loot with Helper
 	}
+	else {
+		message("Your Trimps don't even know how to block with their shields!", "Loot", "*exclamation-triangle");
+	}
 }
 
 function removeShieldblock() {
@@ -179,11 +182,18 @@ function removeShieldblock() {
 		document.getElementById("upgradesHere").removeChild(document.getElementById("Shieldblock"));
 		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmallows.", "Loot", "*fire"); // Replace Loot with Helper
 	}
+	else {
+		message("Shiedblock unavailable or already removed!", "Loot", "*exclamation-triangle");
+	}
 }
 
 
 function allowRespec() {
 	if (game.global.canRespecPerks == false) {
 		game.global.canRespecPerks = true;
+		message("Your Trimps forgot how to block with their shields.", "Loot", "*thumbs-up2");
+	}
+	else {
+		message("You can already respec!", "Loot", "*exclamation-triangle");
 	}
 }
