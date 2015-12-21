@@ -19,6 +19,9 @@ Complete:
 
 Default Helper Message Type Icon: info2 (icomoon)*/
 
+// OCD
+document.getElementById("buyContainer").style.height = "calc(99vh - 30vw - 41px)";
+
 
 var helperTab = document.createElement("LI");
 helperTab.setAttribute("role", "presentation");
@@ -127,10 +130,10 @@ filterTabs = function(what) {
 	}
 	if (what == "helper") {
 		document.getElementById("numTabs").style.display = "none";
-		document.getElementById("buyContainer").style.height = "calc(99vh - 18vw - 188px)";
+		document.getElementById("buyContainer").style.height = "calc(99vh - 30vw - 6px)"; // Adjust size from removing numTabs/
 	} else {
 		document.getElementById("numTabs").style.display = "block";
-		document.getElementById("buyContainer").style.height = "calc(99vh - 20vw - 193px)";
+		document.getElementById("buyContainer").style.height = "calc(99vh - 30vw - 41px)";
 	}
 }
 
