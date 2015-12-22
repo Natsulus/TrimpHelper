@@ -319,7 +319,8 @@ function JobHireRatioCost(apply, afford) {
 	} 
 	else {
 		for (var job in jobs) {
-			console.log(game.jobs[job]);
+			console.log(jobs);
+			console.log(job);
 			if (game.jobs[job].owned < jobsAmt[job]) {
 				toEmploy += (game.jobs[job].owned - jobsAmt[job]);
 			} 
