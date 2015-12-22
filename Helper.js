@@ -21,16 +21,40 @@ Complete:
 
 Default Helper Message Type Icon: info2 (icomoon)*/
 
-// Add helperCSS
+var helperSettings = {};
+var version = "0.3.2";
+// localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings));
+var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
+/*if (checking != null && checking.version.substring(0, 3) == version.substring(0, 3)) {
+	helperSettings = checking;	
+}
+else {
+	var autobuildings = {enabled: 0, description: "Automatically buy storage buildings when they're 90% full", titles: ["Not Buying", "Buying"]};
+	var autogymbutes = {enabled: 0, description: "Automatically buy gyms and tributes when we can afford them", titles: ["Not Buying", "Buying Both", "Gyms Only", "Tributes Only"]};
+	var autoupgrades = {enabled: 0, description: "Automatically read certain upgrade books to you and the trimps", titles: ["Not Reading", "Reading"]};
+	var autohighlight = {enabled: 0, description: "Highlight the most gem-efficient housing in green and the most metal-efficient equipment in blue and red", titles: ["Not Highlighting", "Highlighting All", "Housing Only", "Equipment Only"]};
+	var autopremaps = {enabled: 0, description: "Bring us back to the world if we're in the premaps screen for 30 seconds", titles: ["Not Switching", "Switching"]};
+	var autogather = {enabled: 0, description: "I'll make you switch between gathering and building depending on our build queue", titles: ["Not Switching", "Switching"]};
+	var autoformations = {enabled: 0, description: "Automatically switch between Heap and Dominance formations based on enemy", titles: ["Not Switching", "Switching"]};
+	var autosnimps = {enabled: 0, description: "I'll automatically buy items to help us get past snimps, squimps, and other fast enemies", titles: ["Not Avoiding", "Avoiding"]};
+	var automapbmax = {enabled: 0, description: "I'll manage turning map repeat on and off so we can reach the max map bonus", titles: ["Not Managing", "Managing"]};
+	autoTSettings = {version: version, autobuildings: autobuildings, autogymbutes: autogymbutes, autoupgrades: autoupgrades, autohighlight: autohighlight, autopremaps: autopremaps, autogather: autogather, automapbmax: automapbmax, autosnimps: autosnimps, autoformations: autoformations};
+}*/
+
+// Add Helper to filters.
+game.global.messages.Helper = true;
+
+
 helperCSS = document.createElement("link");
 helperCSS.setAttribute("id", "helperCSS");
 helperCSS.setAttribute("rel", "stylesheet");
 helperCSS.setAttribute("type", "text/css");
 helperCSS.setAttribute("href", "https://Natsulus.github.io/TrimpHelper/Helper.css");
-document.getElementsByTagName("head").item(0).appendChild(helperCSS);
+document.getElementsByTagName("head").item(0).appendChild(helperCSS); // Add helperCSS
 
 // OCD
 document.getElementById("buyContainer").style.height = "calc(99vh - 30vw - 41px)";
+document.getElementById("helium").style.height = "32.4%";
 
 
 var helperTab = document.createElement("LI");
@@ -139,7 +163,45 @@ helperContainer.appendChild(helperHere);
 
 document.getElementById("buyHere").appendChild(helperContainer);
 
-// Re-Define filterTabs to include "helper" in tabs.
+function unlearnShieldblock() {
+	if (game.upgrades.Shieldblock.done == 1) {
+		game.upgrades.Shieldblock.done = 0;
+		prestigeEquipment("Shield", false, true);
+		game.equipment.Shield.blockNow = false;
+		game.equipment.Shield.tooltip = "A big, wooden shield. Adds $healthCalculated$ health to each soldier per level.";
+		levelEquipment("Shield", 1);
+		message("Your Trimps forgot how to block with their shields.", "Helper", "*help");
+	}
+	else {
+		message("Your Trimps don't even know how to block with their shields!", "Helper", "*exclamation-triangle");
+	}
+}
+
+function removeShieldblock() {
+	if (game.upgrades.Shieldblock.allowed == 1) {
+		game.upgrades.Shieldblock.allowed = 0
+		game.upgrades.Shieldblock.locked = 1
+		document.getElementById("upgradesHere").removeChild(document.getElementById("Shieldblock"));
+		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmallows.", "Helper", "*fire");
+	}
+	else {
+		message("Shieldblock unavailable or already removed!", "Helper", "*exclamation-triangle");
+	}
+}
+
+
+function allowRespec() {
+	if (game.global.canRespecPerks == false) {
+		game.global.canRespecPerks = true;
+		message("You can now respec.", "Helper", "*thumbs-up2");
+	}
+	else {
+		message("You can already respec!", "Helper", "*exclamation-triangle");
+	}
+}
+
+// Re-Defining Functions to add Helper
+
 filterTabs = function(what) {
 	enableDisableTab(game.global.buyTab, false);
 	game.global.buyTab = what;
@@ -161,39 +223,36 @@ filterTabs = function(what) {
 	}
 }
 
-function unlearnShieldblock() {
-	if (game.upgrades.Shieldblock.done == 1) {
-		game.upgrades.Shieldblock.done = 0;
-		prestigeEquipment("Shield", false, true);
-		game.equipment.Shield.blockNow = false;
-		game.equipment.Shield.tooltip = "A big, wooden shield. Adds $healthCalculated$ health to each soldier per level.";
-		levelEquipment("Shield", 1);
-		message("Your Trimps forgot how to block with their shields.", "Loot", "*help"); // Replace Loot with Helper
+message = function(messageString, type, lootIcon, extraClass) {
+	var log = document.getElementById("log");
+	var needsScroll = ((log.scrollTop + 10) > (log.scrollHeight - log.clientHeight));
+	var displayType = (game.global.messages[type]) ? "block" : "none";
+	var prefix = "";
+	if (lootIcon && lootIcon.charAt(0) == "*") {
+		lootIcon = lootIcon.replace("*", "");
+		prefix =  "icomoon icon-" 
 	}
-	else {
-		message("Your Trimps don't even know how to block with their shields!", "Loot", "*exclamation-triangle");
+	else prefix = "glyphicon glyphicon-";
+	if (type == "Story") messageString = "<span class='glyphicon glyphicon-star'></span> " + messageString;
+	if (type == "Combat") messageString = "<span class='glyphicon glyphicon-flag'></span> " + messageString;
+	if (type == "Loot" && lootIcon) messageString = "<span class='" + prefix + lootIcon + "'></span> " + messageString;
+	if (type == "Helper") {
+		if (lootIcon) 
+			messageString = "<span class='" + prefix + lootIcon + "'></span> " + messageString;
+		else
+			messageString = "<span class='icomoon icon-info2'></span> " + messageString;
 	}
-}
-
-function removeShieldblock() {
-	if (game.upgrades.Shieldblock.allowed == 1) {
-		game.upgrades.Shieldblock.allowed = 0
-		game.upgrades.Shieldblock.locked = 1
-		document.getElementById("upgradesHere").removeChild(document.getElementById("Shieldblock"));
-		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmallows.", "Loot", "*fire"); // Replace Loot with Helper
+	var addId = "";
+	if (messageString == "Game Saved!") {
+		addId = " id='saveGame'";
+		if (document.getElementById('saveGame') !== null){
+			log.removeChild(document.getElementById('saveGame'));
+		}
 	}
-	else {
-		message("Shieldblock unavailable or already removed!", "Loot", "*exclamation-triangle");
+	if (type == "Notices"){
+		messageString = "<span class='glyphicon glyphicon-off'></span> " + messageString;
 	}
-}
-
-
-function allowRespec() {
-	if (game.global.canRespecPerks == false) {
-		game.global.canRespecPerks = true;
-		message("You can now respec.", "Loot", "*thumbs-up2");
-	}
-	else {
-		message("You can already respec!", "Loot", "*exclamation-triangle");
-	}
+	log.innerHTML += "<span" + addId + " class='" + type + "Message message" +  " " + extraClass + "' style='display: " + displayType + "'>" + messageString + "</span>";
+	if (needsScroll) log.scrollTop = log.scrollHeight;
+	if (type != "Story") trimMessages(type);
 }
