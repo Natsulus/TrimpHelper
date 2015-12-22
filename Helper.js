@@ -179,6 +179,7 @@ helperContainer.appendChild(helperHere);
 document.getElementById("buyHere").appendChild(helperContainer);
 
 var helperInterval = setInterval(helperLoop, 1000);
+saveLoop();
 
 function unlearnShieldblock(confirmed) {
 	if (game.upgrades.Shieldblock.done == 1) {
