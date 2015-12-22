@@ -42,9 +42,9 @@ else {
 			removedShieldblock: removedShieldblock
 		},
 		autoSaveTime: autoSaveTime,
-		farmerRatio: 1,
+		farmerRatio: 2,
 		lumberjackRatio: 1,
-		minerRatio: 1
+		minerRatio: 3
 	};
 }
 
@@ -328,9 +328,9 @@ function JobHireRatioCost(apply, afford) {
 			return (game.resources.food.owned > cost) ? true : false;
 		}
 		if (game.resources.food.owned > cost)
-			return "<span class='green'>food: " + prettify(cost) + " (" + prettify(((cost / game.resources.food.owned) * 100).toFixed(1)) + "%)";
+			return "<span class='green'>food: " + prettify(cost) + " (" + prettify(((cost / game.resources.food.owned) * 100).toFixed(1)) + "%)" + "</span>";
 		else
-			return "<span class='red'>food: " + prettify(cost) + " (" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")";
+			return "<span class='red'>food: " + prettify(cost) + " (" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")</span>";
 	}
 }
 
