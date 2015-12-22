@@ -12,3 +12,7 @@
 .helperButton:active {
 	background: darkgray;
 }
+
+.confirmBtn {
+	float: right;
+}

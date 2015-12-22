@@ -163,8 +163,12 @@ helperContainer.appendChild(helperHere);
 
 document.getElementById("buyHere").appendChild(helperContainer);
 
-function unlearnShieldblock() {
+function unlearnShieldblock(confirmed) {
 	if (game.upgrades.Shieldblock.done == 1) {
+		if (!confirmed) {
+			helperTooltip('Button', 'Unlearn Shieldblock', 'Your Trimps will foget how to block with their shields, however they will be able to endure more. Are you sure?', 'unlearnShieldblock(true)');
+			return;
+		}
 		game.upgrades.Shieldblock.done = 0;
 		prestigeEquipment("Shield", false, true);
 		game.equipment.Shield.blockNow = false;
@@ -177,8 +181,12 @@ function unlearnShieldblock() {
 	}
 }
 
-function removeShieldblock() {
+function removeShieldblock(confirmed) {
 	if (game.upgrades.Shieldblock.allowed == 1) {
+		if (!confirmed) {
+			helperTooltip('Button', 'Remove Shieldblock', 'This will remove the Shieldblock Book. Are you sure?', 'removeShieldblock(true)');
+			return;
+		}
 		game.upgrades.Shieldblock.allowed = 0
 		game.upgrades.Shieldblock.locked = 1
 		document.getElementById("upgradesHere").removeChild(document.getElementById("Shieldblock"));
@@ -190,14 +198,49 @@ function removeShieldblock() {
 }
 
 
-function allowRespec() {
+function allowRespec(confirmed) {
 	if (game.global.canRespecPerks == false) {
+		if (!confirmed) {
+			helperTooltip('Button', 'Allow Respec', 'This will allow you to respec again. Are you sure?', 'allowRespec(true)');
+			return;
+		}
 		game.global.canRespecPerks = true;
 		message("You can now respec.", "Helper", "*thumbs-up2");
 	}
 	else {
 		message("You can already respec!", "Helper", "*exclamation-triangle");
 	}
+}
+
+function helperTooltip(what, titleString, textString, attachFunction) {
+	if (game.global.lockTooltip) return;
+	//if (helperSettings.disableTooltip && what == "Hover") ???; // Disables hover tooltips
+	
+	var elem = document.getElementById("tooltipDiv");
+	var ondisplay = null; // if non-null, called after the tooltip is displayed
+	if (what == "hide"){
+		elem.style.display = "none";
+		tooltipUpdateFunction = "";
+		return;
+	}
+	var tooltipText;
+	var btnText = "";
+	var toTip;
+	var price;
+	var canAfford;
+	var percentOfTotal = "";
+	if (what == "Button"){
+		tooltipText = textString;
+		btnText += '<div class="maxCenter"><div class="btn btn-info confirmBtn" onclick="' + attachFunction + '; cancelTooltip()">Confirm</div><div class="btn btn-info confirmBtn" onclick="cancelTooltip()">Cancel</div></div>';
+		game.global.lockTooltip = true;
+		elem.style.left = "32.5%";
+		elem.style.top = "25%";
+	}
+
+	document.getElementById("tipTitle").innerHTML = titleString;
+	document.getElementById("tipText").innerHTML = textString;
+	document.getElementById("tipCost").innerHTML = costText;
+	elem.style.display = "block";
 }
 
 // Re-Defining Functions to add Helper
