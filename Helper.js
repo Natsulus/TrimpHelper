@@ -30,8 +30,6 @@ if (checking != null && checking.version == version) {
 	helperSettings = checking;	
 }
 else {
-	var autoRemoveShieldblock = ; // Auto Removes Shieldblock
-	var autoRemoveShieldblock = {status: 0, text: ["Off", "On"]}; // Auto Removes Shieldblock
 	helperSettings = {
 		version: version, 
 		togglable: {
