@@ -23,7 +23,7 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.3.3";
+var version = "0.3.4";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
 if (checking != null && checking.version == version) {
 	helperSettings = checking;	
@@ -31,10 +31,14 @@ if (checking != null && checking.version == version) {
 else {
 	var autoRemoveShieldblock = {status: 0, text: ["Off", "On"]}; // Auto Removes Shieldblock
 	var autoSaveTime = 30000;
+	var removedShieldblock = false;
 	helperSettings = {
 		version: version, 
 		togglable: {
 			autoRemoveShieldblock: autoRemoveShieldblock
+		},
+		flag: {
+			removedShieldblock: removedShieldblock
 		},
 		autoSaveTime: autoSaveTime
 	};
@@ -184,7 +188,7 @@ saveLoop();
 function unlearnShieldblock(confirmed) {
 	if (game.upgrades.Shieldblock.done == 1) {
 		if (!confirmed) {
-			helperTooltip('Button', 'Unlearn Shieldblock', 'Your Trimps will foget how to block with their shields, however they will be able to endure more. Are you sure?', 'unlearnShieldblock(true)');
+			helperTooltip('Button', 'Unlearn Shieldblock', 'Your Trimps will forget how to block with their shields, however they will be able to endure more from direct hits. Are you sure?', 'unlearnShieldblock(true)');
 			return;
 		}
 		game.upgrades.Shieldblock.done = 0;
@@ -192,7 +196,7 @@ function unlearnShieldblock(confirmed) {
 		game.equipment.Shield.blockNow = false;
 		game.equipment.Shield.tooltip = "A big, wooden shield. Adds $healthCalculated$ health to each soldier per level.";
 		levelEquipment("Shield", 1);
-		message("Your Trimps forgot how to block with their shields.", "Helper", "*help");
+		message("Your Trimps forgot how to block with their shields, however they are now able to endure more from direct hits.", "Helper", "*help");
 	}
 	else {
 		message("Your Trimps don't even know how to block with their shields!", "Helper", "*exclamation-triangle");
@@ -207,11 +211,15 @@ function removeShieldblock(confirmed) {
 		}
 		game.upgrades.Shieldblock.allowed = 0
 		game.upgrades.Shieldblock.locked = 1
+		helperSettings.flag.removedShieldblock = true;
 		document.getElementById("upgradesHere").removeChild(document.getElementById("Shieldblock"));
 		message("You accidentally burnt the Shieldblock Book to a crisp while cooking your marshmallows.", "Helper", "*fire");
 	}
 	else {
-		message("Shieldblock unavailable or already removed!", "Helper", "*exclamation-triangle");
+		if (helperSettings.flag.removedShieldblock)
+			message("You already burnt the Shieldblock Book!", "Helper", "*exclamation-triangle");
+		else
+			message("You currently don't own the Shieldblock Book.", "Helper", "*exclamation-triangle");
 	}
 }
 
@@ -279,6 +287,9 @@ function toggleSettings(setting){
 function helperLoop() {
 	if (helperSettings.togglable.autoRemoveShieldblock.status == 1 && game.upgrades.Shieldblock.allowed == 1) {
 		removeShieldblock(true);
+	}
+	if (game.global.gridArray.length == 0) {
+		helperSettings.flag.removedShieldblock = false;
 	}
 }
 
