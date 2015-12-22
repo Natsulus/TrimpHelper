@@ -302,7 +302,7 @@ function JobHireRatioCost(apply, afford) {
 	var toEmploy = 0;
 
 	if (apply) {
-		for (let job of jobs) {
+		jobs.forEach(function(job) {
 			if (game.jobs[job].owned > jobsAmt[job]) {
 				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
 				game.jobs[job].owned -= (game.jobs[job].owned - jobsAmt[job]);
@@ -311,18 +311,18 @@ function JobHireRatioCost(apply, afford) {
 				game.resources.trimps.employed += (game.jobs[job].owned - jobsAmt[job]);
 				game.jobs[job].owned += (game.jobs[job].owned - jobsAmt[job]);
 				toEmploy += (game.jobs[job].owned - jobsAmt[job]);
-			} 
-		}
+			}
+		});
 		var cost = 5 * toEmploy;
 		game.resources.food.owned -= cost;
 		return;
 	} 
 	else {
-		for (let job of jobs) {
+		jobs.forEach(function(job) {
 			if (game.jobs[job].owned < jobsAmt[job]) {
 				toEmploy += (game.jobs[job].owned - jobsAmt[job]);
 			} 
-		}
+		});;
 		var cost = 5 * toEmploy;
 		if (afford) {
 			return (game.resources.food.owned > cost) ? true : false;
