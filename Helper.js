@@ -302,15 +302,15 @@ function JobHireRatioCost(apply, afford) {
 	var toEmploy = 0;
 
 	if (apply) {
-		for (var job in jobs) {
-			if (game.jobs[job].owned > jobsAmt[job]) {
-				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
-				game.jobs[job].owned -= (game.jobs[job].owned - jobsAmt[job]);
+		for (var joba in jobs) {
+			if (game.jobs[joba].owned > jobsAmt[joba]) {
+				game.resources.trimps.employed -= (game.jobs[joba].owned - jobsAmt[joba]);
+				game.jobs[joba].owned -= (game.jobs[joba].owned - jobsAmt[joba]);
 			} 
-			if (game.jobs[job].owned < jobsAmt[job]) {
-				game.resources.trimps.employed += (game.jobs[job].owned - jobsAmt[job]);
-				game.jobs[job].owned += (game.jobs[job].owned - jobsAmt[job]);
-				toEmploy += (game.jobs[job].owned - jobsAmt[job]);
+			if (game.jobs[joba].owned < jobsAmt[joba]) {
+				game.resources.trimps.employed += (game.jobs[joba].owned - jobsAmt[joba]);
+				game.jobs[joba].owned += (game.jobs[joba].owned - jobsAmt[joba]);
+				toEmploy += (game.jobs[joba].owned - jobsAmt[joba]);
 			} 
 		}
 		var cost = 5 * toEmploy;
@@ -318,28 +318,24 @@ function JobHireRatioCost(apply, afford) {
 		return;
 	} 
 	else {
-		for (var job in jobs) {
-			console.log(jobs);
-			console.log(job);
-			if (game.jobs[job].owned < jobsAmt[job]) {
-				toEmploy += (game.jobs[job].owned - jobsAmt[job]);
+		for (var jobn in jobs) {
+			if (game.jobs[jobn].owned < jobsAmt[jobn]) {
+				toEmploy += (game.jobs[jobn].owned - jobsAmt[jobn]);
 			} 
 		}
 		var cost = 5 * toEmploy;
 		if (afford) {
 			return (game.resources.food.owned > cost) ? true : false;
 		}
-		if (game.resources.food.owned > cost) {
+		if (game.resources.food.owned > cost)
 			return "<span class='green'>food: " + prettify(cost) + " (" + prettify(((cost / game.resources.food.owned) * 100).toFixed(1)) + "%)";
-		}
-		else {
+		else
 			return "<span class='red'>food: " + prettify(cost) + " (" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")";
-		}
 	}
 }
 
 function updateHelperButton(id, canAfford) {
-	console.log(JobHireRatioCost(false, false));
+	console.log(JobHireRatioCost());
 	var elem = document.getElementById(id);
 	if (elem === null)
 		return;
