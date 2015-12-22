@@ -298,18 +298,18 @@ function JobHireRatioCost(apply, afford) {
 	};
 	var jobs = ["Farmer", "Lumberjack", "Miner"];
 	var toEmploy = 0;
-	console.log(workspaces);
-	console.log(jobsAmt);
 
 	if (apply) {
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned > jobsAmt[job]) {
-				game.resources.trimps.employed -= (jobsAmt[job] - game.jobs[job].owned);
-				game.jobs[job].owned -= (jobsAmt[job] - game.jobs[job].owned);
+				console.log(game.jobs[job].owned) + " - " + jobsAmt[job] + " = " + (game.jobs[job].owned - jobsAmt[job]));
+				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
+				game.jobs[job].owned -= (game.jobs[job].owned - jobsAmt[job]);
 			} 
 		});
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned < jobsAmt[job]) {
+				console.log(jobsAmt[job] + " - " + game.jobs[job].owned) + " = " + (jobsAmt[job] - game.jobs[job].owned));
 				game.resources.trimps.employed += (jobsAmt[job] - game.jobs[job].owned);
 				game.jobs[job].owned += (jobsAmt[job] - game.jobs[job].owned);
 				toEmploy += (jobsAmt[job] - game.jobs[job].owned);
