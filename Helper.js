@@ -19,27 +19,22 @@ Complete:
 - Remove Shieldblock (Buttons)
 - Re-Allow Perk Respec (Buttons)
 
-Default Helper Message Type Icon: info2 (icomoon)*/
+Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
+*/
 
 var helperSettings = {};
 var version = "0.3.2";
-// localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings));
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
-/*if (checking != null && checking.version.substring(0, 3) == version.substring(0, 3)) {
+if (checking != null && checking.version.substring(0, 3) == version.substring(0, 3)) {
 	helperSettings = checking;	
 }
 else {
-	var autobuildings = {enabled: 0, description: "Automatically buy storage buildings when they're 90% full", titles: ["Not Buying", "Buying"]};
-	var autogymbutes = {enabled: 0, description: "Automatically buy gyms and tributes when we can afford them", titles: ["Not Buying", "Buying Both", "Gyms Only", "Tributes Only"]};
-	var autoupgrades = {enabled: 0, description: "Automatically read certain upgrade books to you and the trimps", titles: ["Not Reading", "Reading"]};
-	var autohighlight = {enabled: 0, description: "Highlight the most gem-efficient housing in green and the most metal-efficient equipment in blue and red", titles: ["Not Highlighting", "Highlighting All", "Housing Only", "Equipment Only"]};
-	var autopremaps = {enabled: 0, description: "Bring us back to the world if we're in the premaps screen for 30 seconds", titles: ["Not Switching", "Switching"]};
-	var autogather = {enabled: 0, description: "I'll make you switch between gathering and building depending on our build queue", titles: ["Not Switching", "Switching"]};
-	var autoformations = {enabled: 0, description: "Automatically switch between Heap and Dominance formations based on enemy", titles: ["Not Switching", "Switching"]};
-	var autosnimps = {enabled: 0, description: "I'll automatically buy items to help us get past snimps, squimps, and other fast enemies", titles: ["Not Avoiding", "Avoiding"]};
-	var automapbmax = {enabled: 0, description: "I'll manage turning map repeat on and off so we can reach the max map bonus", titles: ["Not Managing", "Managing"]};
-	autoTSettings = {version: version, autobuildings: autobuildings, autogymbutes: autogymbutes, autoupgrades: autoupgrades, autohighlight: autohighlight, autopremaps: autopremaps, autogather: autogather, automapbmax: automapbmax, autosnimps: autosnimps, autoformations: autoformations};
-}*/
+	var autoRemoveShieldblock = {status: 0, text: ["Off", "On"]}; // Auto Removes Shieldblock
+	helperSettings = {
+		version: version, 
+		autoRemoveShieldblock: autoRemoveShieldblock
+	};
+}
 
 // Add Helper to filters.
 game.global.messages.Helper = true;
@@ -163,6 +158,8 @@ helperContainer.appendChild(helperHere);
 
 document.getElementById("buyHere").appendChild(helperContainer);
 
+var helperInterval = setInterval(helperLoop, 1000);
+
 function unlearnShieldblock(confirmed) {
 	if (game.upgrades.Shieldblock.done == 1) {
 		if (!confirmed) {
@@ -241,6 +238,29 @@ function helperTooltip(what, titleString, textString, attachFunction) {
 	document.getElementById("tipText").innerHTML = textString;
 	document.getElementById("tipCost").innerHTML = btnText;
 	elem.style.display = "block";
+}
+
+function toggleSettings(setting){
+	var option = helpersettings[setting];
+	var toggles = option.text.length;
+	if (toggles == 2) option.status = (option.status) ? 0 : 1;
+	else {
+		option.status++;
+		if (option.status >= toggles) option.status = 0;
+	}
+	if (autoOption.onToggle) autoOption.onToggle();
+	var menuElem = document.getElementById("toggle" + setting);
+	menuElem.innerHTML = option.text[option.status];
+	menuElem.className = "";
+	menuElem.className = "settingBtn settingBtn" + option.status;
+}
+
+function helperLoop() {
+	if (helperSettings.autoRemoveShieldblock.status == 1) {
+		removeShieldblock(true);
+	}
+
+	localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings));
 }
 
 // Re-Defining Functions to add Helper
