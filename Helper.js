@@ -13,7 +13,12 @@ To Do:
 - Active Formation Switching (Switch during battle)
 - Add New Message Type (Story, Loot, Unlocks, Combat, Helper)
 - Categories (Buttons, Automate, Cheats)
-- Job Hire Ratio (Farmer:Lumberjack:Miner of Total Workspace MINUS Scientist, Trainer, Explorer, Geneticist Workers) [Uses 'Apply' button. Fires as many necessary to apply ratio.]
+- Move created nodes to another file and write statement to add file to head.
+
+Incomplete:
+- Auto-Remove Shieldblock (Automate)
+- Job Hire Ratio (Buttons)
+- Job Hire Ratio (Automate)
 
 Complete:
 - Unlearn Shieldblock (Buttons)
@@ -24,7 +29,7 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.4.0";
+var version = "0.4.1";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
 if (checking != null && checking.version == version || false) {
 	helperSettings = checking;	
@@ -39,10 +44,12 @@ else {
 		flag: {
 			removedShieldblock: false
 		},
+		jobRatio: {
+			Farmer: 1,
+			Lumberjack: 1,
+			Miner: 1
+		}
 		autosaveTime: 30000,
-		farmerRatio: 2,
-		lumberjackRatio: 1,
-		minerRatio: 2
 	};
 }
 
@@ -289,23 +296,23 @@ function toggleSettings(setting){
 // Need to change helperSettings.[JOB]Ratio to the value of input text boxes.
 function JobHireRatioCost(apply, afford) {
 	if (game.jobs.Miner.locked == 1) {
-		var totalRatio = helperSettings.farmerRatio + helperSettings.lumberjackRatio;
+		var totalRatio = helperSettings.jobRatio.Farmer + helperSettings.jobRatio.Lumberjack;
 		var workspaces = Math.ceil(game.resources.trimps.realMax() / 2) - (game.jobs.Scientist.owned + game.jobs.Trainer.owned + game.jobs.Explorer.owned + game.jobs.Geneticist.owned);
 		var ratioPortion = Math.floor(workspaces / totalRatio);
 		var jobsAmt = {
-			Farmer: (ratioPortion * helperSettings.farmerRatio),
-			Lumberjack: (ratioPortion * helperSettings.lumberjackRatio)
+			Farmer: (ratioPortion * helperSettings.jobRatio.Farmer),
+			Lumberjack: (ratioPortion * helperSettings.jobRatio.Lumberjack)
 		};
 		var jobs = ["Farmer", "Lumberjack"];
 	}
 	else {
-		var totalRatio = helperSettings.farmerRatio + helperSettings.lumberjackRatio + helperSettings.minerRatio;
+		var totalRatio = helperSettings.jobRatio.Farmer + helperSettings.jobRatio.Lumberjack + helperSettings.jobRatio.Miner;
 		var workspaces = Math.ceil(game.resources.trimps.realMax() / 2) - (game.jobs.Scientist.owned + game.jobs.Trainer.owned + game.jobs.Explorer.owned + game.jobs.Geneticist.owned);
 		var ratioPortion = Math.floor(workspaces / totalRatio);
 		var jobsAmt = {
-			Farmer: (ratioPortion * helperSettings.farmerRatio),
-			Lumberjack: (ratioPortion * helperSettings.lumberjackRatio),
-			Miner: (ratioPortion * helperSettings.minerRatio)
+			Farmer: (ratioPortion * helperSettings.jobRatio.Farmer),
+			Lumberjack: (ratioPortion * helperSettings.jobRatio.Lumberjack),
+			Miner: (ratioPortion * helperSettings.jobRatio.Miner)
 		};
 		var jobs = ["Farmer", "Lumberjack", "Miner"];
 	}
@@ -353,7 +360,7 @@ function JobHireRatioCost(apply, afford) {
 		else
 			return "<span class='red'>food: " + prettify(cost) + " (" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")</span>";
 	}
-}
+} // All in one Job Hire Ratio Function
 
 function updateHelperButton(id, canAfford) {
 	var elem = document.getElementById(id);
