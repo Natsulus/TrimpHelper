@@ -48,7 +48,7 @@ else {
 			Farmer: 1,
 			Lumberjack: 1,
 			Miner: 1
-		}
+		},
 		autosaveTime: 30000
 	};
 }
