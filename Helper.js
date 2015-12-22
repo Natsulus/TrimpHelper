@@ -324,13 +324,15 @@ function JobHireRatioCost(apply, afford) {
 			} 
 		});;
 		var cost = 5 * toEmploy;
+		console.log(toEmploy);
+		console.log(cost);
 		if (afford) {
 			return (game.resources.food.owned > cost) ? true : false;
 		}
 		if (game.resources.food.owned > cost)
-			return "<span class='green'>food: " + prettify(cost) + " (" + prettify(((cost / game.resources.food.owned) * 100).toFixed(1)) + "%)";
+			return "<span class='green'>food:&nbsp;" + prettify(cost) + "&nbsp;(" + prettify(((cost / game.resources.food.owned) * 100).toFixed(1)) + "%)";
 		else
-			return "<span class='red'>food: " + prettify(cost) + " (" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")";
+			return "<span class='red'>food:&nbsp;" + prettify(cost) + "&nbsp;(" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")";
 	}
 }
 
