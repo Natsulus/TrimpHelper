@@ -310,14 +310,13 @@ function JobHireRatioCost(apply, afford) {
 		var jobs = ["Farmer", "Lumberjack", "Miner"];
 	}
 	var toEmploy = 0;
-	console.log(totalRatio);
-	console.log(workspaces);
-	console.log(ratioPortion);
 
 	if (apply) {
 		if (totalRatio < Math.floor(game.resources.trimps.owned)) {
+			console.log("Bye");
 			return;
 		}
+		console.log("Hi");
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned > jobsAmt[job]) {
 				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
