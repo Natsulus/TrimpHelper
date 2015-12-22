@@ -276,9 +276,8 @@ function helperLoop() {
 		removeShieldblock(true);
 	}
 
-	if(localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings))) {
-		message("Saved TrimpHelper Settings!", "Helper", "*cog2");
-	}
+	localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings))
+	message("Saved TrimpHelper Settings!", "Helper", "*cog2");
 }
 
 // Re-Defining Functions to add Helper
