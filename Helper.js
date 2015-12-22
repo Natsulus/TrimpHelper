@@ -24,7 +24,7 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.3.8";
+var version = "0.3.9";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
 if (checking != null && checking.version == version) {
 	helperSettings = checking;	
@@ -40,9 +40,9 @@ else {
 			removedShieldblock: false
 		},
 		autosaveTime: 30000,
-		farmerRatio: 2,
+		farmerRatio: 3,
 		lumberjackRatio: 1,
-		minerRatio: 3
+		minerRatio: 6
 	};
 }
 
@@ -298,6 +298,8 @@ function JobHireRatioCost(apply, afford) {
 	};
 	var jobs = ["Farmer", "Lumberjack", "Miner"];
 	var toEmploy = 0;
+	console.log(workspaces);
+	console.log(jobsAmt);
 
 	if (apply) {
 		jobs.forEach(function(job) {
@@ -335,6 +337,7 @@ function JobHireRatioCost(apply, afford) {
 }
 
 function updateHelperButton(id, canAfford) {
+	console.log(JobHireRatioCost());
 	var elem = document.getElementById(id);
 	if (elem === null)
 		return;
