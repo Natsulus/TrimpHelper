@@ -312,12 +312,9 @@ function JobHireRatioCost(apply, afford) {
 	var toEmploy = 0;
 
 	if (apply) {
-		if (totalRatio < Math.floor(game.resources.trimps.owned)) {
-			console.log("Bye");
-			console.log(totalRatio);
+		if (Math.floor(game.resources.trimps.owned) < totalRatio) {
 			return;
 		}
-		console.log(totalRatio);
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned > jobsAmt[job]) {
 				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
@@ -343,12 +340,12 @@ function JobHireRatioCost(apply, afford) {
 		});;
 		var cost = 5 * toEmploy;
 		if (afford) {
-			if (totalRatio < Math.floor(game.resources.trimps.owned)) {
+			if (Math.floor(game.resources.trimps.owned) < totalRatio) {
 				return false;
 			}
 			return (game.resources.food.owned > cost) ? true : false;
 		}
-		if (totalRatio < Math.floor(game.resources.trimps.owned)) {
+		if (Math.floor(game.resources.trimps.owned) < totalRatio) {
 			return "<span class='red'>Not enough Trimps owned.</span>";
 		}
 		if (game.resources.food.owned > cost)
