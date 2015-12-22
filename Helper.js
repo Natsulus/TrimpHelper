@@ -36,9 +36,6 @@ else {
 	};
 }
 
-// Add Helper to filters.
-game.global.messages.Helper = true;
-
 
 helperCSS = document.createElement("link");
 helperCSS.setAttribute("id", "helperCSS");
@@ -50,6 +47,25 @@ document.getElementsByTagName("head").item(0).appendChild(helperCSS); // Add hel
 // OCD
 document.getElementById("buyContainer").style.height = "calc(99vh - 30vw - 41px)";
 document.getElementById("helium").style.height = "32.4%";
+
+game.global.messages.Helper = true;
+
+var helperBtnGroup = document.createElement("DIV");
+helperBtnGroup.setAttribute("class", "btn-group");
+helperBtnGroup.setAttribute("role", "group");
+
+var helperBtn = document.createElement("BUTTON");
+helperBtn.setAttribute("id", "HelperFilter");
+helperBtn.setAttribute("type", "button");
+helperBtn.setAttribute("onclick", "filterMessage('Helper')");
+helperBtn.setAttribute("class", "btn btn-success logFlt");
+
+helperBtnText = document.createTextNode("Helper");
+
+helperBtn.appendChild(helperBtnText);
+helperBtnGroup.appendChild(helperBtn);
+
+document.getElementById("logBtnGroup").appendChild(helperBtnGroup); // Helper Log Filter Button
 
 
 var helperTab = document.createElement("LI");
@@ -256,7 +272,7 @@ function toggleSettings(setting){
 }
 
 function helperLoop() {
-	if (helperSettings.autoRemoveShieldblock.status == 1) {
+	if (helperSettings.autoRemoveShieldblock.status == 1 && game.upgrades.Shieldblock.allowed == 1) {
 		removeShieldblock(true);
 	}
 
