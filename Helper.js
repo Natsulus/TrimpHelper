@@ -49,7 +49,7 @@ else {
 			Lumberjack: 1,
 			Miner: 1
 		}
-		autosaveTime: 30000,
+		autosaveTime: 30000
 	};
 }
 
