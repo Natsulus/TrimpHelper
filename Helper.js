@@ -204,7 +204,7 @@ function unlearnShieldblock(confirmed) {
 }
 
 function removeShieldblock(confirmed) {
-	if (game.upgrades.Shieldblock.allowed == 1) {
+	if (game.upgrades.Shieldblock.locked == 0) {
 		if (!confirmed) {
 			helperTooltip('Button', 'Remove Shieldblock', 'This will remove the Shieldblock Book. Are you sure?', 'removeShieldblock(true)');
 			return;
