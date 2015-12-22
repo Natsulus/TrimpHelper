@@ -302,15 +302,15 @@ function JobHireRatioCost(apply, afford) {
 	var toEmploy = 0;
 
 	if (apply) {
-		for (var joba in jobs) {
-			if (game.jobs[joba].owned > jobsAmt[joba]) {
-				game.resources.trimps.employed -= (game.jobs[joba].owned - jobsAmt[joba]);
-				game.jobs[joba].owned -= (game.jobs[joba].owned - jobsAmt[joba]);
+		for (i = 0; i < jobs.length; i++) {
+			if (game.jobs[jobs[i]].owned > jobsAmt[jobs[i]]) {
+				game.resources.trimps.employed -= (game.jobs[jobs[i]].owned - jobsAmt[jobs[i]]);
+				game.jobs[jobs[i]].owned -= (game.jobs[jobs[i]].owned - jobsAmt[jobs[i]]);
 			} 
-			if (game.jobs[joba].owned < jobsAmt[joba]) {
-				game.resources.trimps.employed += (game.jobs[joba].owned - jobsAmt[joba]);
-				game.jobs[joba].owned += (game.jobs[joba].owned - jobsAmt[joba]);
-				toEmploy += (game.jobs[joba].owned - jobsAmt[joba]);
+			if (game.jobs[jobs[i]].owned < jobsAmt[jobs[i]]) {
+				game.resources.trimps.employed += (game.jobs[jobs[i]].owned - jobsAmt[jobs[i]]);
+				game.jobs[jobs[i]].owned += (game.jobs[jobs[i]].owned - jobsAmt[jobs[i]]);
+				toEmploy += (game.jobs[jobs[i]].owned - jobsAmt[jobs[i]]);
 			} 
 		}
 		var cost = 5 * toEmploy;
@@ -318,9 +318,9 @@ function JobHireRatioCost(apply, afford) {
 		return;
 	} 
 	else {
-		for (var jobn in jobs) {
-			if (game.jobs[jobn].owned < jobsAmt[jobn]) {
-				toEmploy += (game.jobs[jobn].owned - jobsAmt[jobn]);
+		for (i = 0; i < jobs.length; i++) {
+			if (game.jobs[jobs[i]].owned < jobsAmt[jobs[i]]) {
+				toEmploy += (game.jobs[jobs[i]].owned - jobsAmt[jobs[i]]);
 			} 
 		}
 		var cost = 5 * toEmploy;
