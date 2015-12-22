@@ -329,14 +329,12 @@ message = function(messageString, type, lootIcon, extraClass) {
 			log.removeChild(document.getElementById('saveGame'));
 		}
 	}
-	if (messageString == "Saved TrimpHelper Settings!") {
-		console.log("In");
+	if (messageString.indexOf("Saved TrimpHelper Settings!") > -1) {
 		addId = " id='helperSettings'";
 		if (document.getElementById('helperSettings') !== null) {
 			log.removeChild(document.getElementById('helperSettings'));
 		}
 	}
-	console.log(addId);
 	if (type == "Notices"){
 		messageString = "<span class='glyphicon glyphicon-off'></span> " + messageString;
 	}
