@@ -305,12 +305,13 @@ function JobHireRatioCost(apply, afford) {
 				game.resources.trimps.employed -= (jobsAmt[job] - game.jobs[job].owned);
 				game.jobs[job].owned -= (jobsAmt[job] - game.jobs[job].owned);
 			} 
+		});
+		jobs.forEach(function(job) {
 			if (game.jobs[job].owned < jobsAmt[job]) {
 				game.resources.trimps.employed += (jobsAmt[job] - game.jobs[job].owned);
 				game.jobs[job].owned += (jobsAmt[job] - game.jobs[job].owned);
 				toEmploy += (jobsAmt[job] - game.jobs[job].owned);
 			}
-			console.log(job + "Employed: " + game.resources.trimps.employed + " | Owned: " + game.jobs[job].owned);
 		});
 		var cost = 5 * toEmploy;
 		game.resources.food.owned -= cost;
