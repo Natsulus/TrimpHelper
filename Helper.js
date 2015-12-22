@@ -330,12 +330,13 @@ message = function(messageString, type, lootIcon, extraClass) {
 		}
 	}
 	if (messageString == "Saved TrimpHelper Settings!") {
+		console.log("In");
 		addId = " id='helperSettings'";
 		if (document.getElementById('helperSettings') !== null) {
 			log.removeChild(document.getElementById('helperSettings'));
 		}
 	}
-	console.log(messageString);
+	console.log(addId);
 	if (type == "Notices"){
 		messageString = "<span class='glyphicon glyphicon-off'></span> " + messageString;
 	}
