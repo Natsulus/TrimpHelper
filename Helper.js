@@ -30,18 +30,18 @@ if (checking != null && checking.version == version) {
 	helperSettings = checking;	
 }
 else {
+	var autoRemoveShieldblock = ; // Auto Removes Shieldblock
 	var autoRemoveShieldblock = {status: 0, text: ["Off", "On"]}; // Auto Removes Shieldblock
-	var autoSaveTime = 30000;
-	var removedShieldblock = false;
 	helperSettings = {
 		version: version, 
 		togglable: {
-			autoRemoveShieldblock: autoRemoveShieldblock
+			autoRemoveShieldblock: {status: 0, text: ["Off", "On"]},
+			autoApplyJobRatio: {status: 0, text: ["Off", "On"]}
 		},
 		flag: {
-			removedShieldblock: removedShieldblock
+			removedShieldblock: false
 		},
-		autoSaveTime: autoSaveTime,
+		autosaveTime: 30000,
 		farmerRatio: 2,
 		lumberjackRatio: 1,
 		minerRatio: 3
@@ -291,7 +291,7 @@ function toggleSettings(setting){
 // Need to change helperSettings.[JOB]Ratio to the value of input text boxes.
 function JobHireRatioCost(apply, afford) {
 	var total = helperSettings.farmerRatio + helperSettings.lumberjackRatio + helperSettings.minerRatio;
-	var workspaces = Math.ceil(game.resources.trimps.realMax() / 2);
+	var workspaces = Math.ceil(game.resources.trimps.realMax() / 2) - (game.jobs.Scientist.owned + game.jobs.Trainer.owned + game.jobs.Explorer.owned + game.jobs.Geneticist.owned);
 	var ratioPortion = Math.floor(workspaces / total);
 	var jobsAmt = {
 		Farmer: (ratioPortion * helperSettings.farmerRatio),
@@ -335,7 +335,6 @@ function JobHireRatioCost(apply, afford) {
 }
 
 function updateHelperButton(id, canAfford) {
-	console.log(JobHireRatioCost());
 	var elem = document.getElementById(id);
 	if (elem === null)
 		return;
@@ -347,9 +346,15 @@ function helperLoop() {
 	if (helperSettings.togglable.autoRemoveShieldblock.status == 1 && game.upgrades.Shieldblock.locked == 0) {
 		removeShieldblock(true);
 	}
+
+	if (helper.Settings.togglable.autoApplyJobRatio.status == 1) {
+		JobHireRatioCost(true);
+	}
+
 	if (game.global.gridArray.length == 0) {
 		helperSettings.flag.removedShieldblock = false;
 	}
+
 	updateHelperButton("JobHireRatioBtn", JobHireRatioCost(false, true));
 }
 
@@ -358,7 +363,7 @@ function saveLoop() {
 		localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings))
 		message("Saved TrimpHelper Settings!", "Helper", "*cog2");
 		saveLoop();
-	}, helperSettings.autoSaveTime);
+	}, helperSettings.autosaveTime);
 }
 
 filterTabs = function(what) {
