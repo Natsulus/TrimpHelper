@@ -276,7 +276,9 @@ function helperLoop() {
 		removeShieldblock(true);
 	}
 
-	localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings));
+	if(localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings))) {
+		message("Saved TrimpHelper Settings!", "Helper", "*cog2");
+	}
 }
 
 // Re-Defining Functions to add Helper
@@ -324,8 +326,13 @@ message = function(messageString, type, lootIcon, extraClass) {
 	var addId = "";
 	if (messageString == "Game Saved!") {
 		addId = " id='saveGame'";
-		if (document.getElementById('saveGame') !== null){
+		if (document.getElementById('saveGame') !== null) {
 			log.removeChild(document.getElementById('saveGame'));
+		}
+	} else if (messageString == "Saved TrimpHelper Settings!") {
+		addId = " id='helperSettings'";
+		if (document.getElementById('helperSettings') !== null) {
+			log.removeChild(document.getElementById('helperSettings'));
 		}
 	}
 	if (type == "Notices"){
