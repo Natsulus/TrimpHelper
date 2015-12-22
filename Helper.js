@@ -302,14 +302,14 @@ function JobHireRatioCost(apply, afford) {
 	if (apply) {
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned > jobsAmt[job]) {
-				console.log(game.jobs[job].owned) + " - " + jobsAmt[job] + " = " + (game.jobs[job].owned - jobsAmt[job]));
+				console.log(game.jobs[job].owned + " - " + jobsAmt[job] + " = " + (game.jobs[job].owned - jobsAmt[job]));
 				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
 				game.jobs[job].owned -= (game.jobs[job].owned - jobsAmt[job]);
 			} 
 		});
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned < jobsAmt[job]) {
-				console.log(jobsAmt[job] + " - " + game.jobs[job].owned) + " = " + (jobsAmt[job] - game.jobs[job].owned));
+				console.log(jobsAmt[job] + " - " + game.jobs[job].owned + " = " + (jobsAmt[job] - game.jobs[job].owned));
 				game.resources.trimps.employed += (jobsAmt[job] - game.jobs[job].owned);
 				game.jobs[job].owned += (jobsAmt[job] - game.jobs[job].owned);
 				toEmploy += (jobsAmt[job] - game.jobs[job].owned);
@@ -337,7 +337,6 @@ function JobHireRatioCost(apply, afford) {
 }
 
 function updateHelperButton(id, canAfford) {
-	console.log(JobHireRatioCost());
 	var elem = document.getElementById(id);
 	if (elem === null)
 		return;
