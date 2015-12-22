@@ -23,16 +23,20 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.3.2";
+var version = "0.3.3";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
-if (checking != null && checking.version.substring(0, 3) == version.substring(0, 3)) {
+if (checking != null && checking.version == version) {
 	helperSettings = checking;	
 }
 else {
 	var autoRemoveShieldblock = {status: 0, text: ["Off", "On"]}; // Auto Removes Shieldblock
+	var autoSaveTime = 30000;
 	helperSettings = {
 		version: version, 
-		autoRemoveShieldblock: autoRemoveShieldblock
+		togglable: {
+			autoRemoveShieldblock: autoRemoveShieldblock
+		},
+		autoSaveTime: autoSaveTime
 	};
 }
 
@@ -257,7 +261,7 @@ function helperTooltip(what, titleString, textString, attachFunction) {
 }
 
 function toggleSettings(setting){
-	var option = helpersettings[setting];
+	var option = helpersettings.togglable[setting];
 	var toggles = option.text.length;
 	if (toggles == 2) option.status = (option.status) ? 0 : 1;
 	else {
@@ -272,12 +276,17 @@ function toggleSettings(setting){
 }
 
 function helperLoop() {
-	if (helperSettings.autoRemoveShieldblock.status == 1 && game.upgrades.Shieldblock.allowed == 1) {
+	if (helperSettings.togglable.autoRemoveShieldblock.status == 1 && game.upgrades.Shieldblock.allowed == 1) {
 		removeShieldblock(true);
 	}
+}
 
-	localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings))
-	message("Saved TrimpHelper Settings!", "Helper", "*cog2");
+function saveLoop() {
+	setTimeout(function() {
+		localStorage.setItem("helperSettingsSave",JSON.stringify(helperSettings))
+		message("Saved TrimpHelper Settings!", "Helper", "*cog2");
+		saveLoop();
+	}, helperSettings.autoSaveTime);
 }
 
 // Re-Defining Functions to add Helper
