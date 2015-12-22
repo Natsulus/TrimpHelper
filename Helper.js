@@ -329,15 +329,17 @@ function JobHireRatioCost(apply, afford) {
 		if (afford) {
 			return (game.resources.food.owned > cost) ? true : false;
 		}
-		if (game.resources.food.owned > cost)
+		if (game.resources.food.owned > cost) {
 			return "<span class='green'>food: " + prettify(cost) + " (" + prettify(((cost / game.resources.food.owned) * 100).toFixed(1)) + "%)";
-		else
+		}
+		else {
 			return "<span class='red'>food: " + prettify(cost) + " (" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")";
+		}
 	}
 }
 
 function updateHelperButton(id, canAfford) {
-	console.log(JobHireRatioCost());
+	console.log(JobHireRatioCost(false, false));
 	var elem = document.getElementById(id);
 	if (elem === null)
 		return;
