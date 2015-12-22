@@ -24,7 +24,7 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.3.7";
+var version = "0.3.8";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
 if (checking != null && checking.version == version) {
 	helperSettings = checking;	
