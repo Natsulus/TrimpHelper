@@ -24,7 +24,7 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.3.6";
+var version = "0.3.7";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
 if (checking != null && checking.version == version) {
 	helperSettings = checking;	
@@ -345,7 +345,7 @@ function helperLoop() {
 		removeShieldblock(true);
 	}
 
-	if (helper.Settings.togglable.autoApplyJobRatio.status == 1) {
+	if (helperSettings.togglable.autoApplyJobRatio.status == 1) {
 		JobHireRatioCost(true);
 	}
 
