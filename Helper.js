@@ -314,9 +314,10 @@ function JobHireRatioCost(apply, afford) {
 	if (apply) {
 		if (totalRatio < Math.floor(game.resources.trimps.owned)) {
 			console.log("Bye");
+			console.log(totalRatio);
 			return;
 		}
-		console.log("Hi");
+		console.log(totalRatio);
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned > jobsAmt[job]) {
 				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
