@@ -310,6 +310,7 @@ function JobHireRatioCost(apply, afford) {
 				game.jobs[job].owned += (jobsAmt[job] - game.jobs[job].owned);
 				toEmploy += (jobsAmt[job] - game.jobs[job].owned);
 			}
+			console.log(job + "Employed: " + game.resources.trimps.employed + " | Owned: " + game.jobs[job].owned);
 		});
 		var cost = 5 * toEmploy;
 		game.resources.food.owned -= cost;
