@@ -26,7 +26,7 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 var helperSettings = {};
 var version = "0.3.9";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
-if (checking != null && checking.version == version) {
+if (checking != null && checking.version == version || false) {
 	helperSettings = checking;	
 }
 else {
@@ -293,7 +293,7 @@ function JobHireRatioCost(apply, afford) {
 	var ratioPortion = Math.floor(workspaces / total);
 	var jobsAmt = {
 		Farmer: (ratioPortion * helperSettings.farmerRatio),
-		Lumberjack: (ratioPortion * helperSettings.lumberjacksRatio),
+		Lumberjack: (ratioPortion * helperSettings.lumberjackRatio),
 		Miner: (ratioPortion * helperSettings.minerRatio)
 	};
 	var jobs = ["Farmer", "Lumberjack", "Miner"];
