@@ -302,12 +302,12 @@ function JobHireRatioCost(apply, afford) {
 	if (apply) {
 		jobs.forEach(function(job) {
 			if (game.jobs[job].owned > jobsAmt[job]) {
-				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
-				game.jobs[job].owned -= (game.jobs[job].owned - jobsAmt[job]);
+				game.resources.trimps.employed -= (jobsAmt[job] - game.jobs[job].owned);
+				game.jobs[job].owned -= (jobsAmt[job] - game.jobs[job].owned);
 			} 
 			if (game.jobs[job].owned < jobsAmt[job]) {
-				game.resources.trimps.employed += (game.jobs[job].owned - jobsAmt[job]);
-				game.jobs[job].owned += (game.jobs[job].owned - jobsAmt[job]);
+				game.resources.trimps.employed += (jobsAmt[job] - game.jobs[job].owned);
+				game.jobs[job].owned += (jobsAmt[job] - game.jobs[job].owned);
 				toEmploy += (jobsAmt[job] - game.jobs[job].owned);
 			}
 		});
