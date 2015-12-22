@@ -239,7 +239,7 @@ function helperTooltip(what, titleString, textString, attachFunction) {
 
 	document.getElementById("tipTitle").innerHTML = titleString;
 	document.getElementById("tipText").innerHTML = textString;
-	document.getElementById("tipCost").innerHTML = costText;
+	document.getElementById("tipCost").innerHTML = btnText;
 	elem.style.display = "block";
 }
 
