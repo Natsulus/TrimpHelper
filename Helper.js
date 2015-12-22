@@ -13,6 +13,7 @@ To Do:
 - Active Formation Switching (Switch during battle)
 - Add New Message Type (Story, Loot, Unlocks, Combat, Helper)
 - Categories (Buttons, Automate, Cheats)
+- Job Hire Ratio (Farmer:Lumberjack:Miner of Total Workspace MINUS Scientist, Trainer, Explorer, Geneticist Workers) [Uses 'Apply' button. Fires as many necessary to apply ratio.]
 
 Complete:
 - Unlearn Shieldblock (Buttons)
@@ -23,7 +24,7 @@ Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.3.4";
+var version = "0.3.5";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
 if (checking != null && checking.version == version) {
 	helperSettings = checking;	
@@ -40,7 +41,10 @@ else {
 		flag: {
 			removedShieldblock: removedShieldblock
 		},
-		autoSaveTime: autoSaveTime
+		autoSaveTime: autoSaveTime,
+		farmerRatio: 1,
+		lumberjackRatio: 1,
+		minerRatio: 1
 	};
 }
 
@@ -284,13 +288,69 @@ function toggleSettings(setting){
 	menuElem.className = "settingBtn settingBtn" + option.status;
 }
 
+// Need to change helperSettings.[JOB]Ratio to the value of input text boxes.
+function JobHireRatioCost(apply, afford) {
+	var total = helperSettings.farmerRatio + helperSettings.lumberjackRatio + helperSettings.minerRatio;
+	var workspaces = Math.ceil(game.resources.trimps.realMax() / 2);
+	var ratioPortion = Math.floor(workspaces / total);
+	var jobsAmt = {
+		Farmer: (ratioPortion * helperSettings.farmerRatio),
+		Lumberjack: (ratioPortion * helperSettings.lumberjacksRatio),
+		Miner: (ratioPortion * helperSettings.minerRatio)
+	};
+	var jobs = ["Farmer", "Lumberjack", "Miner"];
+	var toEmploy = 0;
+
+	if (apply) {
+		for (var job in jobs) {
+			if (game.jobs[job].owned > jobsAmt[job]) {
+				game.resources.trimps.employed -= (game.jobs[job].owned - jobsAmt[job]);
+				game.jobs[job].owned -= (game.jobs[job].owned - jobsAmt[job]);
+			} 
+			if (game.jobs[job].owned < jobsAmt[job]) {
+				game.resources.trimps.employed += (game.jobs[job].owned - jobsAmt[job]);
+				game.jobs[job].owned += (game.jobs[job].owned - jobsAmt[job]);
+				toEmploy += (game.jobs[job].owned - jobsAmt[job]);
+			} 
+		}
+		var cost = 5 * toEmploy;
+		game.resources.food.owned -= cost;
+		return;
+	} 
+	else {
+		for (var job in jobs) {
+			if (game.jobs[job].owned < jobsAmt[job]) {
+				toEmploy += (game.jobs[job].owned - jobsAmt[job]);
+			} 
+		}
+		var cost = 5 * toEmploy;
+		if (afford) {
+			return (game.resources.food.owned > cost) ? true : false;
+		}
+		if (game.resources.food.owned > cost)
+			return "<span class='green'>food: " + prettify(cost) + " (" + prettify(((cost / game.resources.food.owned) * 100).toFixed(1)) + "%)";
+		else
+			return "<span class='red'>food: " + prettify(cost) + " (" + calculateTimeToMax(null, getPsString('food', true), (cost - game.resources.food.owned)) + ")";
+	}
+}
+
+function updateHelperButton(id, canAfford) {
+	console.log(JobHireRatioCost());
+	var elem = document.getElementById(id);
+	if (elem === null)
+		return;
+	var color = (canAfford) ? "black" : "grey";
+	elem.style.background = color;
+}
+
 function helperLoop() {
-	if (helperSettings.togglable.autoRemoveShieldblock.status == 1 && game.upgrades.Shieldblock.allowed == 1) {
+	if (helperSettings.togglable.autoRemoveShieldblock.status == 1 && game.upgrades.Shieldblock.locked == 0) {
 		removeShieldblock(true);
 	}
 	if (game.global.gridArray.length == 0) {
 		helperSettings.flag.removedShieldblock = false;
 	}
+	updateHelperButton("JobHireRatioBtn", JobHireRatioCost(false, true));
 }
 
 function saveLoop() {
@@ -300,8 +360,6 @@ function saveLoop() {
 		saveLoop();
 	}, helperSettings.autoSaveTime);
 }
-
-// Re-Defining Functions to add Helper
 
 filterTabs = function(what) {
 	enableDisableTab(game.global.buyTab, false);
@@ -362,4 +420,4 @@ message = function(messageString, type, lootIcon, extraClass) {
 	log.innerHTML += "<span" + addId + " class='" + type + "Message message" +  " " + extraClass + "' style='display: " + displayType + "'>" + messageString + "</span>";
 	if (needsScroll) log.scrollTop = log.scrollHeight;
 	if (type != "Story") trimMessages(type);
-}
+} // Re-Defining Functions to add Helper
