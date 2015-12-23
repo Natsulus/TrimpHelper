@@ -308,7 +308,7 @@ function gcd(a, b) {
 
 function gcdMulti() {
 	var result = arguments[0];
-	for(int i = 1; i < arguments.length; i++){
+	for(var i = 1; i < arguments.length; i++){
 		result = gcd(result, arguments[i]);
 	}
 	return result;
