@@ -11,7 +11,6 @@ To Do:
 - Gather & Building Switching (Doesn't switch to building when trap in queue)
 - Efficient Formation Switching (Switch each new troop)
 - Active Formation Switching (Switch during battle)
-- Add New Message Type (Story, Loot, Unlocks, Combat, Helper)
 - Categories (Buttons, Automate, Cheats)
 - Move created nodes to another file and write statement to add file to head.
 
@@ -24,12 +23,13 @@ Complete:
 - Unlearn Shieldblock (Buttons)
 - Remove Shieldblock (Buttons)
 - Re-Allow Perk Respec (Buttons)
+- Add New Message Type/Filter (Helper)
 
 Icomoon Icon ID List: http://trimps.github.io/fonts/icomoon/style.css
 */
 
 var helperSettings = {};
-var version = "0.4.1";
+var version = "0.4.2";
 var checking = JSON.parse(localStorage.getItem("helperSettingsSave"))
 if (checking != null && checking.version == version || false) {
 	helperSettings = checking;	
@@ -47,7 +47,8 @@ else {
 		jobRatio: {
 			Farmer: 1,
 			Lumberjack: 1,
-			Miner: 1
+			Miner: 1,
+			Unemployed: 10
 		},
 		autosaveTime: 30000
 	};
@@ -293,26 +294,53 @@ function toggleSettings(setting){
 	menuElem.className = "settingBtn settingBtn" + option.status;
 }
 
+function gcd(a, b) {
+    if (a < 0) a = -a;
+    if (b < 0) b = -b;
+    if (b > a) {var temp = a; a = b; b = temp;}
+    while (true) {
+        if (b == 0) return a;
+        a %= b;
+        if (a == 0) return b;
+        b %= a;
+    }
+}
+
+function gcdMulti() {
+	var result = arguments[0];
+	for(int i = 1; i < arguments.length; i++){
+		result = gcd(result, arguments[i]);
+	}
+	return result;
+}
+
 // Need to change helperSettings.[JOB]Ratio to the value of input text boxes.
 function JobHireRatioCost(apply, afford) {
 	if (game.jobs.Miner.locked == 1) {
-		var totalRatio = helperSettings.jobRatio.Farmer + helperSettings.jobRatio.Lumberjack;
-		var workspaces = Math.ceil(game.resources.trimps.realMax() / 2) - (game.jobs.Scientist.owned + game.jobs.Trainer.owned + game.jobs.Explorer.owned + game.jobs.Geneticist.owned);
+		var gcd = gcd(helperSettings.jobRatio.Farmer, helperSettings.jobRatio.Lumberjack);
+		var farmerRatio = helperSettings.jobRatio.Farmer/gcd;
+		var lumberjackRatio = helperSettings.jobRatio.Lumberjack/gcd;
+		var totalRatio = farmerRatio + lumberjackRatio;
+		var workspaces = Math.ceil(game.resources.trimps.realMax() / 2) - (game.jobs.Scientist.owned + game.jobs.Trainer.owned + game.jobs.Explorer.owned + game.jobs.Geneticist.owned + helperSettings.jobRatio.Unemployed);
 		var ratioPortion = Math.floor(workspaces / totalRatio);
 		var jobsAmt = {
-			Farmer: (ratioPortion * helperSettings.jobRatio.Farmer),
-			Lumberjack: (ratioPortion * helperSettings.jobRatio.Lumberjack)
+			Farmer: (ratioPortion * farmerRatio),
+			Lumberjack: (ratioPortion * lumberjackRatio)
 		};
 		var jobs = ["Farmer", "Lumberjack"];
 	}
 	else {
-		var totalRatio = helperSettings.jobRatio.Farmer + helperSettings.jobRatio.Lumberjack + helperSettings.jobRatio.Miner;
-		var workspaces = Math.ceil(game.resources.trimps.realMax() / 2) - (game.jobs.Scientist.owned + game.jobs.Trainer.owned + game.jobs.Explorer.owned + game.jobs.Geneticist.owned);
+		var gcd = gcdMulti(helperSettings.jobRatio.Farmer, helperSettings.jobRatio.Lumberjack, helperSettings.jobRatio.Miner);
+		var farmerRatio = helperSettings.jobRatio.Farmer/gcd;
+		var lumberjackRatio = helperSettings.jobRatio.Lumberjack/gcd;
+		var minerRatio = helperSettings.jobRatio.Miner/gcd;
+		var totalRatio = farmerRatio + lumberjackRatio + minerRatio;
+		var workspaces = Math.ceil(game.resources.trimps.realMax() / 2) - (game.jobs.Scientist.owned + game.jobs.Trainer.owned + game.jobs.Explorer.owned + game.jobs.Geneticist.owned + helperSettings.jobRatio.Unemployed);
 		var ratioPortion = Math.floor(workspaces / totalRatio);
 		var jobsAmt = {
-			Farmer: (ratioPortion * helperSettings.jobRatio.Farmer),
-			Lumberjack: (ratioPortion * helperSettings.jobRatio.Lumberjack),
-			Miner: (ratioPortion * helperSettings.jobRatio.Miner)
+			Farmer: (ratioPortion * farmerRatio),
+			Lumberjack: (ratioPortion * lumberjackRatio),
+			Miner: (ratioPortion * minerRatio)
 		};
 		var jobs = ["Farmer", "Lumberjack", "Miner"];
 	}
