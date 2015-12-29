@@ -16,7 +16,7 @@ javascript:with(document)(head.appendChild(createElement('script')).src='http://
  
 ## Notes
 
-- Have not tested with the Kongregate version and is unlikely to work with it.
+- Have not tested with the Kongregate version and is unlikely to work with it for now.
 
 ## Features
 
@@ -35,6 +35,7 @@ javascript:with(document)(head.appendChild(createElement('script')).src='http://
 - Auto-Buy Storage
 
 ### Planned
+- Tooltips
 - Custom Number Tabs
 - Auto Buy Housing
 - Auto Buy Gyms & Tributes
